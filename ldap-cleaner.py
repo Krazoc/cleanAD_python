@@ -1,10 +1,15 @@
-from ldap3 import Server, Connection, ALL, MODIFY_REPLACE
-from ldap3.core.exceptions import LDAPKeyError
-import yaml
+#!/usr/bin/env python
+
 import os
 import sys
+import yaml
+
+from ldap3 import Server, Connection, ALL, MODIFY_REPLACE
+from ldap3.core.exceptions import LDAPKeyError
+
 
 userslogin = sys.argv[1:]
+
 olduserdn = "OU=User,OU=Old,DC=Domain,DC=Ext"
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -67,5 +72,33 @@ with Connection(server, USER, PASSWORD) as conn:
         except IndexError :
             print("User <<" + userlogin + ">> not found")
             pass
-        
+
 conn.unbind()
+
+
+def init_ldap_connection():
+    try:
+        pass
+    except Exception as e:
+        print("unable to init ldap connection :: {}", e)
+
+
+def search_user_by_login(login, conn):
+    """ Retrieve the user via the windows login
+
+    params login (string): xxx
+    params conn (ldap object): xxx
+    """
+    try:
+        pass
+    except Exception as e:
+        print("unable to search user :: {} :: {}", user, e)
+
+
+def main():
+    conn = init_ldap_connection()
+    user = search_user(login="dwqdq", conn=conn)
+
+
+if __name__ == '__main__':
+    main()

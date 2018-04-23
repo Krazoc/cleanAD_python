@@ -2,9 +2,9 @@ from ldap3 import Server, Connection, ALL, MODIFY_REPLACE
 from ldap3.core.exceptions import LDAPKeyError
 import yaml
 import os
+import sys
 
-
-userlogin = "login"
+userslogin = sys.argv[1:]
 olduserdn = "OU=User,OU=Old,DC=Domain,DC=Ext"
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -29,35 +29,36 @@ with Connection(server, USER, PASSWORD) as conn:
 #----------------------------------------------------------------------------------------------------------------------#
 #                           Find user information                                                                      #
 #----------------------------------------------------------------------------------------------------------------------#
-    conn.search("dc=" + str(DOMAIN) + ", dc=" + str(EXT),
-                "(&(objectclass=user)(objectCategory=person)(sAMAccountName=" + str(userlogin) + ")(userAccountControl=512))",
-                attributes=['distinguishedName', 'displayname'])
-    user = conn.entries
-    userdn = user[0].distinguishedName
-    userdisp = user[0].displayname
-    print(userdisp)
-
+    for userlogin in userslogin:
+        conn.search("dc=" + str(DOMAIN) + ", dc=" + str(EXT),
+                    "(&(objectclass=user)(objectCategory=person)(sAMAccountName=" + str(userlogin) + ")(userAccountControl=512))",
+                    attributes=['distinguishedName', 'displayname'])
+        user = conn.entries
+        userdn = user[0].distinguishedName
+        userdisp = user[0].displayname
+        print(userdisp)
+        
 #----------------------------------------------------------------------------------------------------------------------#
 #                           Find Groups in which the user is                                                           #
 #----------------------------------------------------------------------------------------------------------------------#
-    conn.search("dc=" + str(DOMAIN) + ", dc=" + str(EXT), "(&(objectCategory=group)(member=" + str(userdn) + "))",
-                attributes=['distinguishedName'])
-    groups = conn.entries
-    for group in groups :
-        groupdn = group.distinguishedName
-        print(groupdn)
+        conn.search("dc=" + str(DOMAIN) + ", dc=" + str(EXT), "(&(objectCategory=group)(member=" + str(userdn) + "))",
+                    attributes=['distinguishedName'])
+        groups = conn.entries
+        for group in groups :
+            groupdn = group.distinguishedName
+            print(groupdn)
 #                           Use the loop to delete the user from all the group
-        conn.extend.microsoft.remove_members_from_groups([str(userdn)], [str(groupdn)])
+            conn.extend.microsoft.remove_members_from_groups([str(userdn)], [str(groupdn)])
 
 #----------------------------------------------------------------------------------------------------------------------#
 #                           Moving the user in a different OU by modifying it's DN                                     #
 #----------------------------------------------------------------------------------------------------------------------#
-    conn.modify_dn(str(userdn), 'CN=' + str(userdisp), new_superior=str(olduserdn))
+        conn.modify_dn(str(userdn), 'CN=' + str(userdisp), new_superior=str(olduserdn))
 
 #----------------------------------------------------------------------------------------------------------------------#
 #                           Disable the user by modifying the userAccountControl to 514                                #
 #----------------------------------------------------------------------------------------------------------------------#
-    conn.modify(str(userdn),{'userAccountControl': [(MODIFY_REPLACE, ['514'])]})
+        conn.modify(str(userdn),{'userAccountControl': [(MODIFY_REPLACE, ['514'])]})
 
 #----------------------------------------------------------------------------------------------------------------------#
 #                           Disconnect from the Active Directory                                                       #

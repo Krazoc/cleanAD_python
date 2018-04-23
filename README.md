@@ -1,4 +1,4 @@
-# cleanAD_python
+# ldap-cleaner
 Clean Active Directory user with Python3 and ldap3
 
 The purpose of this script is to :

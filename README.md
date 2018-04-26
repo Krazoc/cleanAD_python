@@ -17,7 +17,7 @@ This file is a huge process file about cleaning old user from the Active Directo
 
 Multiple actions can be done with it :
                                        
-```bash
+```
 search user in AD
 add group(memberOf) to a user 
 set new Primary Group to a user 
@@ -29,7 +29,7 @@ move the user in a different OU
 
 For some function you will need to modify the following value : 
 
-```bash
+```
 add_user_to_group(DN of your memberOf)
 modify_primary_group(ID of the memberOf) 
 move_user(Path of the new OU)  

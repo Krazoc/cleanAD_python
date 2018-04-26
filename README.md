@@ -14,15 +14,23 @@ Its an output file, no input are required.
 
 This file is a huge process file about cleaning old user from the Active Directory. 
 Multiple actions can be done with it : search user in AD
+
                                        add group(memberOf) to a user 
+                                       
                                        set new Primary Group to a user 
+                                       
                                        search all the groups(memberOf) of a user 
+                                       
                                        delete a user from all his groups 
+                                       
                                        disable the user 
+                                       
                                        move the user in a different OU 
 
 For some function you will need to modify the following value : add_user_to_group(DN of your memberOf)
+
                                                                 modify_primary_group(ID of the memberOf) 
+                                                                
                                                                 move_user(Path of the new OU) 
 
 It will depend on you Active Directory configuration

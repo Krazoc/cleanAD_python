@@ -21,7 +21,7 @@ Make sure to set the path of your yaml file in the following environment variabl
 - LDAP_TOOLBOX_CONFIG_FILE
 
 
-# ldap-toolbox
+# ldap_toolbox
 Preview of the different scripts :
 
 ## utils.py :

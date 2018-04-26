@@ -1,5 +1,19 @@
+# Installation
+
+To work correctly, the ldap_toolbox will need some requirements, so just install requirements.txt which handle yaml and ldap3 library.
+```bash
+$ pip install -r requirements.txt 
+```
+
+Now you can just install the module by doing the following action in the correct directory.
+
+```bash
+$ python setup.py install 
+```
+
+
 # ldap-toolbox
-Preview of the different files :
+Preview of the different scripts :
 
 ## utils.py :
 
@@ -60,15 +74,4 @@ Make sure to set the path of your yaml file in the following environment variabl
 - LDAP_TOOLBOX_CONFIG_FILE
 
 
-# Installation
 
-To work correctly, the ldap_toolbox will need some requirements, so just install yaml and ldap3 library.
-```bash
-$ pip install yaml, ldap3 
-```
-
-Now you can just install the module by doing the following action in the correct directory.
-
-```bash
-$ python setup.py install 
-```

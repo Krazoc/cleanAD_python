@@ -8,6 +8,8 @@ from ldap_toolbox.utils import ldap_start_connection, ldap_stop_connection, load
 
 users_login = sys.argv[1:]
 memberOf_id = "id"
+old_user_group_dn = "CN=old_user,OU=old_user,DC=hello,DC=com"
+old_user_ou_dn = "OU=old_user,DC=hello,DC=com"
 
 def search_user_information(conn, ldap_domain, ldap_domain_ext, user_login):
     """ Get information for the requested user
@@ -28,17 +30,16 @@ def search_user_information(conn, ldap_domain, ldap_domain_ext, user_login):
     return user
 
 
-def add_user_to_group(conn, user_dn):
+def add_user_to_group(conn, user_dn, old_user_group_dn):
     """ Add the user to a group
     """
     try:
-        old_user_group_dn = "CN=old_user,OU=old_user,DC=hello,DC=com"
         conn.extend.microsoft.add_members_to_groups([str(user_dn)], [str(old_user_group_dn)])
     except Exception as e:
         raise Exception("Can't add user to this group :: {}".format(e))
 
 
-def modify_primary_group(conn, user_dn):
+def modify_primary_group(conn, user_dn, memberOf_id):
     """ Change the primary group of the user
     """
     try:
@@ -80,11 +81,10 @@ def disable_user(conn, user_dn):
         raise Exception("Can't disable the user :: {}".format(e))
 
 
-def move_user(conn, user_dn, user_disp):
+def move_user(conn, user_dn, user_disp, old_user_ou_dn):
     """ Move the user to another directory
     """
     try:
-        old_user_ou_dn = "OU=old_user,DC=hello,DC=com"
         conn.modify_dn(str(user_dn), 'CN={}'.format(user_disp), new_superior=str(old_user_ou_dn))
     except Exception as e:
         raise Exception("Can't move the user :: {}".format(e))

@@ -1,5 +1,7 @@
 # Installation
 
+This is a Python 3 project.
+
 To work correctly, the ldap_toolbox will need some requirements, so just install requirements.txt which handle yaml and ldap3 library.
 ```bash
 $ pip install -r requirements.txt 
@@ -14,14 +16,21 @@ $ python setup.py install
 
 # Usage
 
-You will need an Active Directory `login`, `password`, `domain` and `domain extension` that you will store in a yaml file.
+You will need an Active Directory `login`, `password`, `domain` and `domain extension` that you will store in a yaml file like this :
+
+```
+login: hello\login
+password: password
+domain: domain (hello)
+domain_ext: domain extension (com without the dot) 
+```
 
 Make sure to set the path of your yaml file in the following environment variable (you will need to create it):
 
 - LDAP_TOOLBOX_CONFIG_FILE
 
 
-# ldap_toolbox
+# ldap-toolbox
 Preview of the different scripts :
 
 ## utils.py :
@@ -71,5 +80,6 @@ This file find the DN(DistinguishedName) of a group by searching his CN(Common N
 
 This file take an input which is the CN of the required group(You will need to be in your script directory).
 ```bash
-$ python find_group_dn.py group_common_name
+$ python find_group_dn.py 
+$ group_common_name
 ```
